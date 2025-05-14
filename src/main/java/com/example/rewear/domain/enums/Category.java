@@ -3,9 +3,9 @@ package com.example.rewear.domain.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum Category {
-    TOPS_KNIT, TOPS_SWEATSHIRT, TOPS_SHIRT,
-    BOTTOMS_SHORTS, BOTTOMS_JEANS, BOTTOMS_SWEATPANTS,
-    OUTER_ZIP_UP_HOODIE, OUTER_PUFFER_JACKET, OUTER_JACKET,
+    KNIT, SWEATSHIRT, SHIRT,
+    SHORTS, JEANS, SWEATPANTS,
+   ZIP_UP_HOODIE, PUFFER_JACKET, JACKET,
     DRESS,
     SKIRT;
 
