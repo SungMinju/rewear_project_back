@@ -21,20 +21,30 @@ public class ItemController {
 
     //View the home screen item list
     @GetMapping("/home")
-    public ResponseEntity<List<ItemDto.ItemListDto>> findAllItems() {
-        String regionName = regionService.getSavedAddress();
+    public ResponseEntity<List<ItemDto.ItemListDto>> findAllItems(
+            @RequestParam(value = "address", required = false) String regionName) {
+
+        if (regionName == null || regionName.isEmpty()) {
+            regionName = regionService.getSavedAddress(); // 세션에서 가져옴
+        }
+
         List<ItemDto.ItemListDto> items = itemService.findItems(regionName);
         return ResponseEntity.ok(items);
     }
 
     //Item registration
     @PostMapping("/items")
-    public ResponseEntity<ItemDto.ItemResponseDto> addItem(@Valid @RequestBody ItemDto.ItemRequestDto request){
-        String regionName = regionService.getSavedAddress();
-        ItemDto.ItemResponseDto itemRequest = itemService.save(request,regionName);
+    public ResponseEntity<ItemDto.ItemResponseDto> addItem(
+            @RequestParam(value = "address", required = false) String address, @RequestBody ItemDto.ItemRequestDto request){
+        if (address != null && !address.isEmpty()) {
+            regionService.saveAddress(address);
+        } else {
+            address = regionService.getSavedAddress();
+        }
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(itemRequest);
+                .body(itemService.save(request, address));
     }
 
     //Detailed search for a specific item
